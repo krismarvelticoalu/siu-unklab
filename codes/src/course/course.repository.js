@@ -1,26 +1,26 @@
 const prisma = require("../db");
 
-const findCourses = async () => {
+const findAllCourses = async () => {
   const courses = await prisma.mataKuliah.findMany();
 
   return courses;
 };
 
-const findCourseById = async (id) => {
+const findCourseById = async (idMk) => {
   const course = await prisma.mataKuliah.findUnique({
     where: {
-      nim,
+      idMk,
     },
   });
 
   return course;
 };
 
-const insertCourse = async (id, nama, ruangan, paralel) => {
+const insertCourse = async (idMk, namaMk, ruangan, paralel) => {
   const course = await prisma.mataKuliah.create({
     data: {
-      id,
-      nama,
+      idMk,
+      namaMk,
       ruangan,
       paralel,
     },
@@ -29,10 +29,10 @@ const insertCourse = async (id, nama, ruangan, paralel) => {
   return course;
 };
 
-const removeCourseById = async (id) => {
+const removeCourseById = async (idMk) => {
   const course = await prisma.mataKuliah.delete({
     where: {
-      id,
+      idMk,
     },
   });
 
@@ -46,7 +46,7 @@ const removeAllCourses = async () => {
 };
 
 module.exports = {
-  findCourses,
+  findAllCourses,
   findCourseById,
   insertCourse,
   removeCourseById,

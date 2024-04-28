@@ -1,15 +1,23 @@
 const express = require("express");
 const db = require("../../db");
+const {
+  getAllCourses,
+  addCourse,
+  getCourseById,
+  deleteCourseById,
+  deleteAllCourses,
+} = require("./course.service");
 
 const router = express.Router();
 
 // get all courses
 router.get("/", async (req, res) => {
   try {
-    const result = await db.query("SELECT * FROM mata_kuliah");
+    const result = await getAllCourses();
+
     res.status(200).json({
       status: "success",
-      data: result.rows,
+      data: result,
     });
   } catch (err) {
     console.error(err);
@@ -21,9 +29,8 @@ router.get("/", async (req, res) => {
 router.post("/", async (req, res) => {
   const { id_mk, nama_mk, ruangan, paralel } = req.body;
   try {
-    const result = await db.query(
-      `INSERT into mata_kuliah (id_mk, nama_mk, ruangan, paralel) values ('${id_mk}', '${nama_mk}', '${ruangan}', '${paralel}')`
-    );
+    await addCourse(id_mk, nama_mk, ruangan, paralel);
+
     res.status(200).json({
       status: "success",
       message: "data berhasil dimasukkan",
@@ -37,12 +44,11 @@ router.post("/", async (req, res) => {
 // get course by id
 router.get("/:id", async (req, res) => {
   try {
-    const result = await db.query(
-      `SELECT * FROM mata_kuliah WHERE id_mk = '${req.params.id}'`
-    );
+    const result = await getCourseById(req.params.id);
+
     res.status(200).json({
       status: "success",
-      message: result.rows,
+      data: result,
     });
   } catch (err) {
     console.error(err);
@@ -53,9 +59,8 @@ router.get("/:id", async (req, res) => {
 // delete course by id
 router.delete("/:id", async (req, res) => {
   try {
-    const course = await db.query(
-      `DELETE FROM mata_kuliah WHERE id_mk = '${req.params.id}'`
-    );
+    await deleteCourseById(req.params.id);
+
     res.status(200).json({
       status: "success",
       message: "data berhasil dihapus",
@@ -69,7 +74,8 @@ router.delete("/:id", async (req, res) => {
 // delete all courses
 router.delete("/", async (req, res) => {
   try {
-    const course = await db.query(`DELETE FROM mata_kuliah`);
+    await deleteAllCourses();
+
     res.status(200).json({
       status: "success",
       message: "data berhasil dihapus",
