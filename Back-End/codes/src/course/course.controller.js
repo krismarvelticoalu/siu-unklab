@@ -17,7 +17,7 @@ router.get("/", async (req, res) => {
 
     res.status(200).json({
       status: "success",
-      data: result,
+      data: result.rows,
     });
   } catch (err) {
     console.error(err);
