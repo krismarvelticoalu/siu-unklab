@@ -1,0 +1,62 @@
+body {
+  background-color: #f8f9fa;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+.navbar {
+  background-color: #343a40;
+  border-radius: 0.25rem;
+}
+.navbar-brand img:hover {
+  transform: scale(1.1); /* Zoom effect on hover */
+  transition: transform 0.3s ease-in-out;
+}
+.sidebar {
+  background-color: #fff;
+  border-radius: 0.5rem;
+  box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+}
+.system-messages {
+  background-color: #fff;
+  border-radius: 0.5rem;
+  box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+  padding: 1rem;
+}
+.academic-section {
+  background-color: #f8f9fa;
+  border: 1px solid #dee2e6;
+  border-radius: 0.5rem;
+  padding: 1rem;
+  border-bottom: none; /* Remove bottom border */
+}
+.academic-section h5 {
+  font-weight: bold;
+  color: #343a40;
+  margin-bottom: 1rem;
+}
+.academic-section ul {
+  list-style: none;
+  padding: 0;
+}
+.academic-section li {
+  margin-bottom: 0.5rem;
+}
+.academic-section a {
+  color: #007bff;
+  text-decoration: none;
+  transition: color 0.3s;
+}
+.academic-section a:hover {
+  color: #0056b3;
+  font-size: 1.1em;
+  font-weight: bold;
+}
+.footer {
+  background-color: #343a40;
+  color: #fff;
+  padding: 1rem;
+  margin-top: auto;
+  border-radius: 0.25rem 0.25rem 0 0;
+}

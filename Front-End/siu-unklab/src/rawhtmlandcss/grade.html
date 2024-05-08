@@ -14,6 +14,70 @@
   />
   <link rel="stylesheet" href="home.css">
 </head>
+<style>
+    body {
+  background-color: #f8f9fa;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+.navbar {
+  background-color: #343a40;
+  border-radius: 0.25rem;
+}
+.navbar-brand img:hover {
+  transform: scale(1.1); /* Zoom effect on hover */
+  transition: transform 0.3s ease-in-out;
+}
+.sidebar {
+  background-color: #fff;
+  border-radius: 0.5rem;
+  box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+}
+.system-messages {
+  background-color: #fff;
+  border-radius: 0.5rem;
+  box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+  padding: 1rem;
+}
+.academic-section {
+  background-color: #f8f9fa;
+  border: 1px solid #dee2e6;
+  border-radius: 0.5rem;
+  padding: 1rem;
+  border-bottom: none; /* Remove bottom border */
+}
+.academic-section h5 {
+  font-weight: bold;
+  color: #343a40;
+  margin-bottom: 1rem;
+}
+.academic-section ul {
+  list-style: none;
+  padding: 0;
+}
+.academic-section li {
+  margin-bottom: 0.5rem;
+}
+.academic-section a {
+  color: #007bff;
+  text-decoration: none;
+  transition: color 0.3s;
+}
+.academic-section a:hover {
+  color: #0056b3;
+  font-size: 1.1em;
+  font-weight: bold;
+}
+.footer {
+  background-color: #343a40;
+  color: #fff;
+  padding: 1rem;
+  margin-top: auto;
+  border-radius: 0.25rem 0.25rem 0 0;
+}
+</style>
 <body>
   <nav class="navbar navbar-expand-lg navbar-dark bg-dark rounded">
     <div class="container-fluid">
@@ -50,8 +114,16 @@
               Welcome, {Nama Mahasiswa}
             </a>
             <div class="dropdown-menu" aria-labelledby="userDropdown">
-              <a class="dropdown-item" href="#">My Account</a>
-              <a class="dropdown-item" href="./login.html">Log Out</a>
+                <a class="dropdown-item" href="#">Change password</a>
+                <a class="dropdown-item" href="./profile.html">Profile</a>
+                <a class="dropdown-item" href="#">Balance</a>
+                <a class="dropdown-item" href="#">My Labor</a>
+                <a class="dropdown-item" href="#">Verification</a>
+                <a class="dropdown-item" href="#">My Document</a>
+                <a class="dropdown-item" href="#">My Non Academic Record</a>
+                <a class="dropdown-item" href="#">Aturan dan Keputusan</a>
+                <a class="dropdown-item" href="./absensi.html">View Absence</a>
+                <a class="dropdown-item" href="login.html">Log Out</a>
             </div>
           </li>
           <li class="nav-item">
@@ -85,33 +157,16 @@
       </div>
       <div class="col-md-9 col-lg-10">
         <div class="system-messages mb-4">
-          <div class="alert alert-primary rounded" role="alert">
-            <strong>Teacher Evaluation</strong><br />
-            Saat ini pengisian evaluasi dosen telah dibuka. Silahkan mengisi
-            evaluasi dosen melalui <a href="#">link ini.</a>
-          </div>
-          <div class="alert alert-warning rounded" role="alert">
-            <strong>Academic</strong><br />
-            Maksimum waktu untuk setiap mahasiswa menyelesaikan perkuliahan di
-            satu program studi adalah tujuh (7) tahun terhitung sejak
-            mahasiswa tersebut terdaftar pada program studi. Informasi lebih
-            lanjut dapat dilihat melalui tautan
-            <a href="#">Aturan dan Keputusan</a>
-          </div>
-          <div class="alert alert-primary rounded" role="alert">
-            <strong>Academic</strong><br />
-            <strong
-              >Periksa kembali jadwal perkuliahan anda sebelum mengikuti
-              perkuliahan.<br />
-              (Please re-check your schedule before class start)</strong
-            >
-          </div>
           <div class="alert alert-success rounded" role="alert">
-            <strong>SIU</strong><br />
-            Welcome back <strong>{Nama Mahasiswa}</strong>, it's
-            nice to meet you again. This is your last activity using this
-            system:<br />
-            Last login date: 2024-XX-XX XX:XX:XX
+            <strong>View Grade</strong><br />
+            Welcome back <strong>{Nama Mahasiswa}</strong>, here are your grades:
+            <!-- Include grade information here -->
+            <!-- For example: -->
+            <ul>
+              <li>Subject 1: A</li>
+              <li>Subject 2: B+</li>
+              <li>Subject 3: A-</li>
+            </ul>
           </div>
         </div>
       </div>
@@ -130,7 +185,7 @@
           <p>
             <strong>Quick Links:</strong>
             <a href="#">Dashboard</a> |
-            <a href="./login.html">Log Out</a>
+            <a href="login.html">Log Out</a>
           </p>
         </div>
       </div>
@@ -142,5 +197,3 @@
   <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
 </html>
-
-
