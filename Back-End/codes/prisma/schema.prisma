@@ -8,23 +8,36 @@ datasource db {
 }
 
 model course {
-  id         Int     @id @default(autoincrement())
-  title      String
-  credit     Int
-  location   String
-  timePeriod String
-  day        String
-  teacher    teacher @relation(fields: [teacherId], references: [id])
-  teacherId  Int
+  id          Int          @id @default(autoincrement())
+  title       String
+  credit      Int
+  enrollments enrollment[]
 }
 
 model teacher {
-  id     Int      @id @default(autoincrement())
-  name   String
-  course course[]
+  id          Int          @id @default(autoincrement())
+  name        String
+  enrollments enrollment[]
 }
 
 model student {
-  id Int @id @default(autoincrement())
-  name String
+  id          Int          @id @default(autoincrement())
+  name        String
+  enrollments enrollment[]
+}
+
+model enrollment {
+  studentId  Int
+  courseId   Int
+  teacherId  Int
+  semester   String
+  grade      String?
+  location   String
+  timePeriod String
+  day        String
+  student    student @relation(fields: [studentId], references: [id])
+  course     course  @relation(fields: [courseId], references: [id])
+  teacher    teacher @relation(fields: [teacherId], references: [id])
+
+  @@id([studentId, courseId])
 }

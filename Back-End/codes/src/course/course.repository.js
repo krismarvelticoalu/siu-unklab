@@ -16,22 +16,11 @@ const findCourseById = async (id) => {
   return course;
 };
 
-const insertCourse = async (
-  title,
-  credit,
-  location,
-  timePeriod,
-  day,
-  teacherId
-) => {
+const insertCourse = async (title, credit) => {
   const course = await prisma.course.create({
     data: {
       title,
       credit,
-      location,
-      timePeriod,
-      day,
-      teacherId: teacherId,
     },
   });
 

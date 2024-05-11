@@ -1,20 +1,13 @@
 const express = require("express");
 const db = require("../../db");
 const prisma = require("../db");
-const {
-  getAllCourses,
-  addCourse,
-  getCourseById,
-  deleteCourseById,
-  deleteAllCourses,
-} = require("./course.service");
 
 const router = express.Router();
 
-// get all courses
+// get all enrollments
 router.get("/", async (req, res) => {
   try {
-    const result = await getAllCourses();
+    const result = await prisma.teacher.findMany();
 
     res.status(200).json({
       status: "success",
@@ -26,11 +19,31 @@ router.get("/", async (req, res) => {
   }
 });
 
-// insert a course
+// insert an enrollment
 router.post("/", async (req, res) => {
-  const { title, credit } = req.body;
+  const {
+    studentId,
+    courseId,
+    teacherId,
+    semester,
+    grade,
+    location,
+    timePeriod,
+    day,
+  } = req.body;
   try {
-    await addCourse(title, parseInt(credit));
+    await prisma.enrollment.create({
+      data: {
+        studentId: studentId,
+        courseId: courseId,
+        teacherId: teacherId,
+        semester: semester,
+        grade: grade,
+        location: location,
+        timePeriod: timePeriod,
+        day: day,
+      },
+    });
 
     res.status(200).json({
       status: "success",
@@ -42,10 +55,14 @@ router.post("/", async (req, res) => {
   }
 });
 
-// get course by id
+// get enrollment by id
 router.get("/:id", async (req, res) => {
   try {
-    const result = await getCourseById(parseInt(req.params.id));
+    const result = await prisma.enrollment.findUnique({
+      where: {
+        id: parseInt(req.params.id),
+      },
+    });
 
     res.status(200).json({
       status: "success",
@@ -57,10 +74,14 @@ router.get("/:id", async (req, res) => {
   }
 });
 
-// delete course by id
+// delete enrollment by id
 router.delete("/:id", async (req, res) => {
   try {
-    await deleteCourseById(parseInt(req.params.id));
+    await prisma.enrollment.delete({
+      where: {
+        id: parseInt(req.params.id),
+      },
+    });
 
     res.status(200).json({
       status: "success",
@@ -72,10 +93,17 @@ router.delete("/:id", async (req, res) => {
   }
 });
 
-// delete all courses
+// delete all enrolmments
 router.delete("/", async (req, res) => {
   try {
-    await deleteAllCourses();
+    await prisma.enrollment.deleteMany();
+
+    // Reset the sequence back to 1 after deleting all courses
+    const tableName = "enrollment"; // replace with your table name
+    const columnName = "id"; // replace with your column name
+    await prisma.$executeRawUnsafe(
+      `SELECT setval(pg_get_serial_sequence('${tableName}', '${columnName}'), 1, false);`
+    );
 
     res.status(200).json({
       status: "success",
@@ -87,17 +115,32 @@ router.delete("/", async (req, res) => {
   }
 });
 
-// update course by id
+// update enrollment by id
 router.patch("/:id", async (req, res) => {
-  const { title, credit } = req.body;
+  const {
+    studentId,
+    courseId,
+    teacherId,
+    semester,
+    grade,
+    location,
+    timePeriod,
+    day,
+  } = req.body;
 
   // only update provided fields in req.body. if not provided, don't update the field.
   let data = {};
-  if (title !== "") data.title = title;
-  if (credit !== "") data.credit = parseInt(credit);
+  if (studentId !== "") data.studentId = parseInt(studentId);
+  if (courseId !== "") data.courseId = parseInt(courseId);
+  if (teacherId !== "") data.teacherId = parseInt(teacherId);
+  if (semester !== "") data.semester = semester;
+  if (grade !== "") data.grade = parseInt(grade);
+  if (location !== "") data.location = location;
+  if (timePeriod !== "") data.timePeriod = timePeriod;
+  if (day !== "") data.day = day;
 
   try {
-    await prisma.course.update({
+    await prisma.enrollment.update({
       where: {
         id: parseInt(req.params.id),
       },
