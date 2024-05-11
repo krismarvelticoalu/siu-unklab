@@ -31,7 +31,7 @@ model enrollment {
   courseId   Int
   teacherId  Int
   semester   String
-  grade      String?
+  grade      Int?
   location   String
   timePeriod String
   day        String

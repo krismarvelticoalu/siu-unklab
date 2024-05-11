@@ -34,11 +34,11 @@ router.post("/", async (req, res) => {
   try {
     await prisma.enrollment.create({
       data: {
-        studentId: studentId,
-        courseId: courseId,
-        teacherId: teacherId,
+        studentId: parseInt(studentId),
+        courseId: parseInt(courseId),
+        teacherId: parseInt(teacherId),
         semester: semester,
-        grade: grade,
+        grade: parseInt(grade),
         location: location,
         timePeriod: timePeriod,
         day: day,
@@ -56,11 +56,14 @@ router.post("/", async (req, res) => {
 });
 
 // get enrollment by id
-router.get("/:id", async (req, res) => {
+router.get("/:studentId/:courseId", async (req, res) => {
   try {
     const result = await prisma.enrollment.findUnique({
       where: {
-        id: parseInt(req.params.id),
+        studentId_courseId: {
+          studentId: parseInt(req.params.studentId),
+          courseId: parseInt(req.params.courseId),
+        },
       },
     });
 
@@ -75,11 +78,14 @@ router.get("/:id", async (req, res) => {
 });
 
 // delete enrollment by id
-router.delete("/:id", async (req, res) => {
+router.delete("/:studentId/:courseId", async (req, res) => {
   try {
     await prisma.enrollment.delete({
       where: {
-        id: parseInt(req.params.id),
+        studentId_courseId: {
+          studentId: parseInt(req.params.studentId),
+          courseId: parseInt(req.params.courseId),
+        },
       },
     });
 
@@ -98,13 +104,6 @@ router.delete("/", async (req, res) => {
   try {
     await prisma.enrollment.deleteMany();
 
-    // Reset the sequence back to 1 after deleting all courses
-    const tableName = "enrollment"; // replace with your table name
-    const columnName = "id"; // replace with your column name
-    await prisma.$executeRawUnsafe(
-      `SELECT setval(pg_get_serial_sequence('${tableName}', '${columnName}'), 1, false);`
-    );
-
     res.status(200).json({
       status: "success",
       message: "semua data berhasil dihapus",
@@ -116,7 +115,7 @@ router.delete("/", async (req, res) => {
 });
 
 // update enrollment by id
-router.patch("/:id", async (req, res) => {
+router.patch("/:studentId/:courseId", async (req, res) => {
   const {
     studentId,
     courseId,
@@ -142,7 +141,10 @@ router.patch("/:id", async (req, res) => {
   try {
     await prisma.enrollment.update({
       where: {
-        id: parseInt(req.params.id),
+        studentId_courseId: {
+          studentId: parseInt(req.params.studentId),
+          courseId: parseInt(req.params.courseId),
+        },
       },
       data: data,
     });
