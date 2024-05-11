@@ -4,10 +4,10 @@ const prisma = require("../db");
 
 const router = express.Router();
 
-// get all students
+// get all teachers
 router.get("/", async (req, res) => {
   try {
-    const result = await prisma.student.findMany();
+    const result = await prisma.teacher.findMany();
 
     res.status(200).json({
       status: "success",
@@ -19,11 +19,11 @@ router.get("/", async (req, res) => {
   }
 });
 
-// insert a student
+// insert a teacher
 router.post("/", async (req, res) => {
   const { name } = req.body;
   try {
-    await prisma.student.create({
+    await prisma.teacher.create({
       data: { name: name },
     });
 
@@ -37,10 +37,10 @@ router.post("/", async (req, res) => {
   }
 });
 
-// get student by id
+// get teacher by id
 router.get("/:id", async (req, res) => {
   try {
-    const result = await prisma.student.findUnique({
+    const result = await prisma.teacher.findUnique({
       where: {
         id: parseInt(req.params.id),
       },
@@ -56,10 +56,10 @@ router.get("/:id", async (req, res) => {
   }
 });
 
-// delete student by id
+// delete teacher by id
 router.delete("/:id", async (req, res) => {
   try {
-    await prisma.student.delete({
+    await prisma.teacher.delete({
       where: {
         id: parseInt(req.params.id),
       },
@@ -75,13 +75,13 @@ router.delete("/:id", async (req, res) => {
   }
 });
 
-// delete all students
+// delete all teachers
 router.delete("/", async (req, res) => {
   try {
-    await prisma.student.deleteMany();
+    await prisma.teacher.deleteMany();
 
     // Reset the sequence back to 1 after deleting all courses
-    const tableName = "student"; // replace with your table name
+    const tableName = "teacher"; // replace with your table name
     const columnName = "id"; // replace with your column name
     await prisma.$executeRawUnsafe(
       `SELECT setval(pg_get_serial_sequence('${tableName}', '${columnName}'), 1, false);`
@@ -97,11 +97,11 @@ router.delete("/", async (req, res) => {
   }
 });
 
-// update student by id
+// update teacher by id
 router.patch("/:id", async (req, res) => {
   const { name } = req.body;
   try {
-    await prisma.student.update({
+    await prisma.teacher.update({
       where: {
         id: parseInt(req.params.id),
       },

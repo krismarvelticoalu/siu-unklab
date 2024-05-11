@@ -7,71 +7,37 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model mata_kuliah {
-  ID_Mk               String                @id @db.VarChar(10)
-  nama_mk             String                @db.VarChar(50)
-  ruangan             String                @db.VarChar(25)
-  paralel             String                @db.Char(1)
-  ID_Dosen            String                @unique(map: "ID_Dosen_Mk_unique") @db.VarChar(15)
-  Grade               Grade[]
-  Student_mata_kuliah Student_mata_kuliah[]
-  Dosen               Dosen                 @relation(fields: [ID_Dosen], references: [ID_Dosen], onDelete: NoAction, onUpdate: NoAction)
-  Attendence          Attendence            @relation(fields: [ID_Mk], references: [ID_Mk], onDelete: NoAction, onUpdate: NoAction)
+model course {
+  id          Int          @id @default(autoincrement())
+  title       String
+  credit      Int
+  enrollments enrollment[]
 }
 
-model Attendence {
-  ID_Attendence Int          @id
-  Status        String       @db.Char
-  Tanggal       DateTime     @db.Date
-  NIM           Int
-  ID_Mk         String       @unique(map: "ID_Mk_Attendance_unique") @db.VarChar(10)
-  ID_Dosen      String       @unique(map: "ID_Dosen_Attendance_unique") @db.VarChar(15)
-  ID_Student    String       @unique(map: "ID_Student_Attendance_unique") @db.VarChar(15)
-  Dosen         Dosen        @relation(fields: [ID_Dosen], references: [ID_Dosen], onDelete: NoAction, onUpdate: NoAction)
-  Student       Student      @relation(fields: [ID_Student], references: [ID_Student], onDelete: NoAction, onUpdate: NoAction)
-  mata_kuliah   mata_kuliah?
+model teacher {
+  id          Int          @id @default(autoincrement())
+  name        String
+  enrollments enrollment[]
 }
 
-model Dosen {
-  ID_Dosen    String       @id @db.VarChar(15)
-  Nama        String       @db.Char
-  Email       String       @db.Char
-  TTL         String       @db.Char
-  Attendence  Attendence?
-  Grade       Grade?
-  mata_kuliah mata_kuliah?
+model student {
+  id          Int          @id @default(autoincrement())
+  name        String
+  enrollments enrollment[]
 }
 
-model Grade {
-  ID_Grade    String      @id @db.VarChar(10)
-  ID_Mk       String      @db.VarChar(10)
-  NIM         Int
-  Nilai_Grade String      @db.Char
-  ID_Dosen    String      @unique(map: "ID_Dosen_Grade_unique") @db.VarChar(15)
-  ID_Student  String      @unique(map: "ID_Student_Grade_unique") @db.VarChar(15)
-  Dosen       Dosen       @relation(fields: [ID_Dosen], references: [ID_Dosen], onDelete: NoAction, onUpdate: NoAction)
-  mata_kuliah mata_kuliah @relation(fields: [ID_Mk], references: [ID_Mk], onDelete: NoAction, onUpdate: NoAction)
-  Student     Student     @relation(fields: [ID_Student], references: [ID_Student], onDelete: NoAction, onUpdate: NoAction)
-}
+model enrollment {
+  studentId  Int
+  courseId   Int
+  teacherId  Int
+  semester   String
+  grade      Int?
+  location   String
+  timePeriod String
+  day        String
+  student    student @relation(fields: [studentId], references: [id])
+  course     course  @relation(fields: [courseId], references: [id])
+  teacher    teacher @relation(fields: [teacherId], references: [id])
 
-model Student {
-  ID_Student          String                @id @db.VarChar(15)
-  Gender              String                @db.Char
-  Alamat              String                @db.Char
-  Fakultas            String                @db.Char
-  Prodi               String                @db.Char
-  Status_Akademik     String                @db.Char
-  TTL                 String                @db.Char
-  ID_Mk               String                @unique(map: "ID_Mk_Student_unique") @db.VarChar(10)
-  Attendence          Attendence?
-  Grade               Grade?
-  Student_mata_kuliah Student_mata_kuliah[]
-}
-
-model Student_mata_kuliah {
-  ID_Student_mata_kuliah String      @id @db.VarChar(10)
-  Student_id_mk          String      @db.VarChar(10)
-  mata_kuliah_id_mk      String      @db.VarChar(10)
-  Student                Student     @relation(fields: [Student_id_mk], references: [ID_Mk], onDelete: NoAction, onUpdate: NoAction)
-  mata_kuliah            mata_kuliah @relation(fields: [mata_kuliah_id_mk], references: [ID_Mk], onDelete: NoAction, onUpdate: NoAction)
+  @@id([studentId, courseId])
 }
