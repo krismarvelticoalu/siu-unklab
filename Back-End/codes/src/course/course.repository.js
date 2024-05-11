@@ -1,39 +1,47 @@
 const prisma = require("../db");
 
 const findAllCourses = async () => {
-  const courses = await prisma.mataKuliah.findMany();
+  const courses = await prisma.course.findMany();
 
   return courses;
 };
 
-const findCourseById = async (ID_Mk, nama_mk) => {
-  const course = await prisma.mataKuliah.findUnique({
+const findCourseById = async (id) => {
+  const course = await prisma.course.findUnique({
     where: {
-      idMk,
+      id,
     },
   });
 
   return course;
 };
 
-const insertCourse = async (idMk, namaMk, ruangan, paralel, idDosen) => {
-  const course = await prisma.mataKuliah.create({
+const insertCourse = async (
+  title,
+  credit,
+  location,
+  timePeriod,
+  day,
+  teacherId
+) => {
+  const course = await prisma.course.create({
     data: {
-      idMk,
-      namaMk,
-      ruangan,
-      paralel,
-      idDosen,
+      title,
+      credit,
+      location,
+      timePeriod,
+      day,
+      teacherId: teacherId,
     },
   });
 
   return course;
 };
 
-const removeCourseById = async (idMk) => {
-  const course = await prisma.mataKuliah.delete({
+const removeCourseById = async (id) => {
+  const course = await prisma.course.delete({
     where: {
-      idMk,
+      id,
     },
   });
 
@@ -41,7 +49,14 @@ const removeCourseById = async (idMk) => {
 };
 
 const removeAllCourses = async () => {
-  const course = await prisma.mataKuliah.deleteMany();
+  const course = await prisma.course.deleteMany();
+
+  // Reset the sequence back to 1 after deleting all courses
+  const tableName = "course"; // replace with your table name
+  const columnName = "id"; // replace with your column name
+  await prisma.$executeRawUnsafe(
+    `SELECT setval(pg_get_serial_sequence('${tableName}', '${columnName}'), 1, false);`
+  );
 
   return course;
 };

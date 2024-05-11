@@ -18,8 +18,22 @@ const getCourseById = async (id) => {
   return course;
 };
 
-const addCourse = async (id_mk, nama, ruangan, paralel, id_dosen) => {
-  const course = await insertCourse(id_mk, nama, ruangan, paralel, id_dosen);
+const addCourse = async (
+  title,
+  credit,
+  location,
+  timePeriod,
+  day,
+  teacherId
+) => {
+  const course = await insertCourse(
+    title,
+    credit,
+    location,
+    timePeriod,
+    day,
+    teacherId
+  );
 
   return course;
 };

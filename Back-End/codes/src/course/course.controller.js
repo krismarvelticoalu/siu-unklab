@@ -1,5 +1,6 @@
 const express = require("express");
 const db = require("../../db");
+const prisma = require("../db");
 const {
   getAllCourses,
   addCourse,
@@ -17,7 +18,7 @@ router.get("/", async (req, res) => {
 
     res.status(200).json({
       status: "success",
-      data: result.rows,
+      data: result,
     });
   } catch (err) {
     console.error(err);
@@ -27,9 +28,16 @@ router.get("/", async (req, res) => {
 
 // insert a course
 router.post("/", async (req, res) => {
-  const { id_mk, nama_mk, ruangan, paralel, id_dosen } = req.body;
+  const { title, credit, location, timePeriod, day, teacherId } = req.body;
   try {
-    await addCourse(id_mk, nama_mk, ruangan, paralel, id_dosen);
+    await addCourse(
+      title,
+      parseInt(credit),
+      location,
+      timePeriod,
+      day,
+      parseInt(teacherId)
+    );
 
     res.status(200).json({
       status: "success",
@@ -44,7 +52,7 @@ router.post("/", async (req, res) => {
 // get course by id
 router.get("/:id", async (req, res) => {
   try {
-    const result = await getCourseById(req.params.id);
+    const result = await getCourseById(parseInt(req.params.id));
 
     res.status(200).json({
       status: "success",
@@ -59,7 +67,7 @@ router.get("/:id", async (req, res) => {
 // delete course by id
 router.delete("/:id", async (req, res) => {
   try {
-    await deleteCourseById(req.params.id);
+    await deleteCourseById(parseInt(req.params.id));
 
     res.status(200).json({
       status: "success",
@@ -78,7 +86,38 @@ router.delete("/", async (req, res) => {
 
     res.status(200).json({
       status: "success",
-      message: "data berhasil dihapus",
+      message: "semua data berhasil dihapus",
+    });
+  } catch (err) {
+    console.error(err);
+    res.status(500).send("Internal Server Error");
+  }
+});
+
+// update course by id
+router.patch("/:id", async (req, res) => {
+  const { title, credit, location, timePeriod, day, teacherId } = req.body;
+
+  // only update provided fields in req.body. if not provided, don't update the field.
+  let data = {};
+  if (title !== "") data.title = title;
+  if (credit !== "") data.credit = parseInt(credit);
+  if (location !== "") data.location = location;
+  if (timePeriod !== "") data.timePeriod = timePeriod;
+  if (day !== "") data.day = day;
+  if (teacherId !== "") data.teacherId = parseInt(teacherId);
+
+  try {
+    await prisma.course.update({
+      where: {
+        id: parseInt(req.params.id),
+      },
+      data: data,
+    });
+
+    res.status(200).json({
+      status: "success",
+      message: "data berhasil diperbarui",
     });
   } catch (err) {
     console.error(err);
