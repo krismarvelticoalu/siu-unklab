@@ -7,7 +7,7 @@ const router = express.Router();
 // get all enrollments
 router.get("/", async (req, res) => {
   try {
-    const result = await prisma.teacher.findMany();
+    const result = await prisma.enrollment.findMany();
 
     res.status(200).json({
       status: "success",
