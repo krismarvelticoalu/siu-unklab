@@ -11,7 +11,6 @@ const courseController = require("./course/course.controller");
 const studentController = require("./student/student.controller");
 
 app.use("/courses", courseController);
-app.use("/students", studentController);
 
 app.listen(port, () => {
   console.log(`Server running at http://localhost:${port}`);

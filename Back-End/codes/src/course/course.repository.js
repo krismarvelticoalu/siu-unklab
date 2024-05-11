@@ -6,7 +6,7 @@ const findAllCourses = async () => {
   return courses;
 };
 
-const findCourseById = async (idMk) => {
+const findCourseById = async (ID_Mk, nama_mk) => {
   const course = await prisma.mataKuliah.findUnique({
     where: {
       idMk,
@@ -16,13 +16,14 @@ const findCourseById = async (idMk) => {
   return course;
 };
 
-const insertCourse = async (idMk, namaMk, ruangan, paralel) => {
+const insertCourse = async (idMk, namaMk, ruangan, paralel, idDosen) => {
   const course = await prisma.mataKuliah.create({
     data: {
       idMk,
       namaMk,
       ruangan,
       paralel,
+      idDosen,
     },
   });
 

@@ -18,8 +18,8 @@ const getCourseById = async (id) => {
   return course;
 };
 
-const addCourse = async (id, nama, ruangan, paralel) => {
-  const course = await insertCourse(id, nama, ruangan, paralel);
+const addCourse = async (id_mk, nama, ruangan, paralel, id_dosen) => {
+  const course = await insertCourse(id_mk, nama, ruangan, paralel, id_dosen);
 
   return course;
 };
@@ -34,6 +34,12 @@ const deleteAllCourses = async () => {
   const courses = await removeAllCourses();
 
   return courses;
+};
+
+const updateCourseById = async (id) => {
+  const course = await editCourseById(id);
+
+  return course;
 };
 
 module.exports = {

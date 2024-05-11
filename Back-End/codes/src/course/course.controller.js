@@ -27,9 +27,9 @@ router.get("/", async (req, res) => {
 
 // insert a course
 router.post("/", async (req, res) => {
-  const { id_mk, nama_mk, ruangan, paralel } = req.body;
+  const { id_mk, nama_mk, ruangan, paralel, id_dosen } = req.body;
   try {
-    await addCourse(id_mk, nama_mk, ruangan, paralel);
+    await addCourse(id_mk, nama_mk, ruangan, paralel, id_dosen);
 
     res.status(200).json({
       status: "success",
