@@ -7,21 +7,6 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-enum userType {
-  STUDENT
-  TEACHER
-}
-
-model user {
-  id           Int      @id @default(autoincrement())
-  username     String   @unique
-  passwordHash String
-  type         userType
-
-  teacher teacher?
-  student student?
-}
-
 model course {
   id          Int          @id @default(autoincrement())
   title       String
@@ -32,17 +17,17 @@ model course {
 model teacher {
   id          Int          @id @default(autoincrement())
   name        String
-  user        user         @relation(fields: [userId], references: [id])
+  email       String       @unique
+  password    String       @default("12345")
   enrollments enrollment[]
-  userId      Int          @unique
 }
 
 model student {
   id          Int          @id @default(autoincrement())
   name        String
-  user        user         @relation(fields: [userId], references: [id])
+  email       String       @unique
+  password    String       @default("12345")
   enrollments enrollment[]
-  userId      Int          @unique
 }
 
 model enrollment {
@@ -64,8 +49,8 @@ model enrollment {
 
 model attendance {
   date                DateTime
-  wasPresent          Boolean
-  wasLate             Boolean
+  wasPresent          Boolean    @default(false)
+  wasLate             Boolean    @default(false)
   enrollment          enrollment @relation(fields: [enrollmentStudentId, enrollmentCourseId], references: [studentId, courseId])
   enrollmentStudentId Int
   enrollmentCourseId  Int

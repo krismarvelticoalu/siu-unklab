@@ -1,13 +1,19 @@
 const express = require("express");
-const db = require("../../db");
-const prisma = require("../db");
+const {
+  getAllAttendances,
+  getAttendanceById,
+  deleteAttendanceById,
+  deleteAllAttendances,
+  addAttendance,
+  updateAttendanceById,
+} = require("./attendance.service");
 
 const router = express.Router();
 
 // get all attendances
 router.get("/", async (req, res) => {
   try {
-    const result = await prisma.attendance.findMany();
+    const result = await getAllAttendances();
 
     res.status(200).json({
       status: "success",
@@ -25,15 +31,13 @@ router.post("/", async (req, res) => {
     req.body;
 
   try {
-    await prisma.attendance.create({
-      data: {
-        date: new Date(date),
-        wasPresent: Boolean(wasPresent),
-        wasLate: Boolean(wasLate),
-        enrollmentStudentId: parseInt(enrollmentStudentId),
-        enrollmentCourseId: parseInt(enrollmentCourseId),
-      },
-    });
+    await addAttendance(
+      new Date(date),
+      Boolean(wasPresent),
+      Boolean(wasLate),
+      parseInt(enrollmentStudentId),
+      parseInt(enrollmentCourseId)
+    );
 
     res.status(200).json({
       status: "success",
@@ -50,15 +54,11 @@ router.get(
   "/:enrollmentStudentId/:enrollmentCourseId/:date",
   async (req, res) => {
     try {
-      const result = await prisma.attendance.findUnique({
-        where: {
-          enrollmentStudentId_enrollmentCourseId_date: {
-            enrollmentStudentId: parseInt(req.params.enrollmentStudentId),
-            enrollmentCourseId: parseInt(req.params.enrollmentCourseId),
-            date: new Date(req.params.date),
-          },
-        },
-      });
+      const result = await getAttendanceById(
+        parseInt(req.params.enrollmentStudentId),
+        parseInt(req.params.enrollmentCourseId),
+        new Date(req.params.date)
+      );
 
       res.status(200).json({
         status: "success",
@@ -76,15 +76,11 @@ router.delete(
   "/:enrollmentStudentId/:enrollmentCourseId/:date",
   async (req, res) => {
     try {
-      await prisma.attendance.delete({
-        where: {
-          enrollmentStudentId_enrollmentCourseId_date: {
-            enrollmentStudentId: parseInt(req.params.enrollmentStudentId),
-            enrollmentCourseId: parseInt(req.params.enrollmentCourseId),
-            date: new Date(req.params.date),
-          },
-        },
-      });
+      await deleteAttendanceById(
+        parseInt(req.params.enrollmentStudentId),
+        parseInt(req.params.enrollmentCourseId),
+        new Date(req.params.date)
+      );
 
       res.status(200).json({
         status: "success",
@@ -100,7 +96,7 @@ router.delete(
 // delete all attendances
 router.delete("/", async (req, res) => {
   try {
-    await prisma.attendance.deleteMany();
+    await deleteAllAttendances();
 
     res.status(200).json({
       status: "success",
@@ -125,22 +121,16 @@ router.patch(
     } = req.body;
 
     try {
-      await prisma.attendance.update({
-        where: {
-          enrollmentStudentId_enrollmentCourseId_date: {
-            enrollmentStudentId: parseInt(req.params.enrollmentStudentId),
-            enrollmentCourseId: parseInt(req.params.enrollmentCourseId),
-            date: new Date(req.params.date),
-          },
-        },
-        data: {
-          date: new Date(date),
-          wasPresent: Boolean(wasPresent),
-          wasLate: Boolean(wasLate),
-          enrollmentStudentId: parseInt(enrollmentStudentId),
-          enrollmentCourseId: parseInt(enrollmentCourseId),
-        },
-      });
+      await updateAttendanceById(
+        parseInt(req.params.enrollmentStudentId),
+        parseInt(req.params.enrollmentCourseId),
+        new Date(req.params.date),
+        new Date(date),
+        Boolean(wasPresent),
+        Boolean(wasLate),
+        parseInt(enrollmentStudentId),
+        parseInt(enrollmentCourseId)
+      );
 
       res.status(200).json({
         status: "success",

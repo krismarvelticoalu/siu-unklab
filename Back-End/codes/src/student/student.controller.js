@@ -1,13 +1,19 @@
 const express = require("express");
-const db = require("../../db");
-const prisma = require("../db");
+const {
+  getAllStudents,
+  addStudent,
+  getStudentById,
+  deleteStudentById,
+  deleteAllStudents,
+  updateStudentById,
+} = require("./student.service");
 
 const router = express.Router();
 
 // get all students
 router.get("/", async (req, res) => {
   try {
-    const result = await prisma.student.findMany();
+    const result = await getAllStudents();
 
     res.status(200).json({
       status: "success",
@@ -21,11 +27,10 @@ router.get("/", async (req, res) => {
 
 // insert a student
 router.post("/", async (req, res) => {
-  const { name } = req.body;
+  const { name, email, password } = req.body;
+
   try {
-    await prisma.student.create({
-      data: { name: name },
-    });
+    await addStudent(name, email, password);
 
     res.status(200).json({
       status: "success",
@@ -40,11 +45,7 @@ router.post("/", async (req, res) => {
 // get student by id
 router.get("/:id", async (req, res) => {
   try {
-    const result = await prisma.student.findUnique({
-      where: {
-        id: parseInt(req.params.id),
-      },
-    });
+    const result = await getStudentById(parseInt(req.params.id));
 
     res.status(200).json({
       status: "success",
@@ -59,11 +60,7 @@ router.get("/:id", async (req, res) => {
 // delete student by id
 router.delete("/:id", async (req, res) => {
   try {
-    await prisma.student.delete({
-      where: {
-        id: parseInt(req.params.id),
-      },
-    });
+    await deleteStudentById(parseInt(req.params.id));
 
     res.status(200).json({
       status: "success",
@@ -78,14 +75,7 @@ router.delete("/:id", async (req, res) => {
 // delete all students
 router.delete("/", async (req, res) => {
   try {
-    await prisma.student.deleteMany();
-
-    // Reset the sequence back to 1 after deleting all courses
-    const tableName = "student"; // replace with your table name
-    const columnName = "id"; // replace with your column name
-    await prisma.$executeRawUnsafe(
-      `SELECT setval(pg_get_serial_sequence('${tableName}', '${columnName}'), 1, false);`
-    );
+    await deleteAllStudents();
 
     res.status(200).json({
       status: "success",
@@ -99,16 +89,10 @@ router.delete("/", async (req, res) => {
 
 // update student by id
 router.patch("/:id", async (req, res) => {
-  const { name } = req.body;
+  const { name, email, password } = req.body;
+
   try {
-    await prisma.student.update({
-      where: {
-        id: parseInt(req.params.id),
-      },
-      data: {
-        name: name,
-      },
-    });
+    await updateStudentById(parseInt(req.params.id), name, email, password);
 
     res.status(200).json({
       status: "success",

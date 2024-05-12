@@ -1,13 +1,20 @@
 const express = require("express");
-const db = require("../../db");
-const prisma = require("../db");
+const {
+  getAllEnrollments,
+  getEnrollmentById,
+  deleteEnrollmentById,
+  deleteAllEnrollments,
+  addEnrollment,
+  updateEnrollmentById,
+} = require("./enrollment.service");
+const { addAttendance } = require("../attendance/attendance.service");
 
 const router = express.Router();
 
 // get all enrollments
 router.get("/", async (req, res) => {
   try {
-    const result = await prisma.enrollment.findMany();
+    const result = await getAllEnrollments();
 
     res.status(200).json({
       status: "success",
@@ -32,18 +39,16 @@ router.post("/", async (req, res) => {
     day,
   } = req.body;
   try {
-    await prisma.enrollment.create({
-      data: {
-        studentId: parseInt(studentId),
-        courseId: parseInt(courseId),
-        teacherId: parseInt(teacherId),
-        semester: semester,
-        grade: parseInt(grade),
-        location: location,
-        timePeriod: timePeriod,
-        day: day,
-      },
-    });
+    await addEnrollment(
+      parseInt(studentId),
+      parseInt(courseId),
+      parseInt(teacherId),
+      semester,
+      parseInt(grade),
+      location,
+      timePeriod,
+      day
+    );
 
     res.status(200).json({
       status: "success",
@@ -58,14 +63,10 @@ router.post("/", async (req, res) => {
 // get enrollment by id
 router.get("/:studentId/:courseId", async (req, res) => {
   try {
-    const result = await prisma.enrollment.findUnique({
-      where: {
-        studentId_courseId: {
-          studentId: parseInt(req.params.studentId),
-          courseId: parseInt(req.params.courseId),
-        },
-      },
-    });
+    const result = await getEnrollmentById(
+      parseInt(req.params.studentId),
+      parseInt(req.params.courseId)
+    );
 
     res.status(200).json({
       status: "success",
@@ -80,14 +81,10 @@ router.get("/:studentId/:courseId", async (req, res) => {
 // delete enrollment by id
 router.delete("/:studentId/:courseId", async (req, res) => {
   try {
-    await prisma.enrollment.delete({
-      where: {
-        studentId_courseId: {
-          studentId: parseInt(req.params.studentId),
-          courseId: parseInt(req.params.courseId),
-        },
-      },
-    });
+    await deleteEnrollmentById(
+      parseInt(req.params.studentId),
+      parseInt(req.params.courseId)
+    );
 
     res.status(200).json({
       status: "success",
@@ -102,7 +99,7 @@ router.delete("/:studentId/:courseId", async (req, res) => {
 // delete all enrolmments
 router.delete("/", async (req, res) => {
   try {
-    await prisma.enrollment.deleteMany();
+    await deleteAllEnrollments();
 
     res.status(200).json({
       status: "success",
@@ -127,27 +124,19 @@ router.patch("/:studentId/:courseId", async (req, res) => {
     day,
   } = req.body;
 
-  // only update provided fields in req.body. if not provided, don't update the field.
-  let data = {};
-  if (studentId !== "") data.studentId = parseInt(studentId);
-  if (courseId !== "") data.courseId = parseInt(courseId);
-  if (teacherId !== "") data.teacherId = parseInt(teacherId);
-  if (semester !== "") data.semester = semester;
-  if (grade !== "") data.grade = parseInt(grade);
-  if (location !== "") data.location = location;
-  if (timePeriod !== "") data.timePeriod = timePeriod;
-  if (day !== "") data.day = day;
-
   try {
-    await prisma.enrollment.update({
-      where: {
-        studentId_courseId: {
-          studentId: parseInt(req.params.studentId),
-          courseId: parseInt(req.params.courseId),
-        },
-      },
-      data: data,
-    });
+    await updateEnrollmentById(
+      parseInt(req.params.studentId),
+      parseInt(req.params.courseId),
+      parseInt(studentId),
+      parseInt(courseId),
+      parseInt(teacherId),
+      semester,
+      parseInt(grade),
+      location,
+      timePeriod,
+      day
+    );
 
     res.status(200).json({
       status: "success",

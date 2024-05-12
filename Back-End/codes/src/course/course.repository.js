@@ -50,10 +50,25 @@ const removeAllCourses = async () => {
   return course;
 };
 
+const editCourseById = async (id, title, credit) => {
+  const course = await prisma.course.update({
+    where: {
+      id,
+    },
+    data: {
+      title,
+      credit,
+    },
+  });
+
+  return course;
+};
+
 module.exports = {
   findAllCourses,
   findCourseById,
   insertCourse,
   removeCourseById,
   removeAllCourses,
+  editCourseById,
 };
