@@ -2,7 +2,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import './home.css';
 import { useState } from 'react';
 
-const Home = () => {
+const Absence = () => {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
   const toggleDropdown = () => {
@@ -45,7 +45,7 @@ const Home = () => {
                   role="button"
                   onClick={toggleDropdown}
                 >
-                  Welcome, Nama Mahasiswa
+                  Welcome, {'{Nama Mahasiswa}'} {/* Replace with actual student name */}
                 </a>
                 <div
                   className={`dropdown-menu dropdown-menu-right ${
@@ -104,10 +104,9 @@ const Home = () => {
                 <ul>
                   <li><a href="#">Registration</a></li>
                   <li><a href="#">Semester Cost Estimation</a></li>
-                  <li><a href="./addndrop.html">Add/ Drop Registration Subject</a></li>
-                  <li><a href="./drop.html">Drop Subject</a></li>
-                  <li><a href="./grade.html">View Grade</a></li>
-                  <li><a href="./schedule.html">View Schedule</a></li>
+                  <li><a href="#">Add/ Drop Registration Subject</a></li>
+                  <li><a href="#">Drop Subject</a></li>
+                  <li><a href="#">View Schedule</a></li>
                   <li><a href="#">Teacher Evaluation</a></li>
                   <li><a href="#">View Ospek & KKN/ KKU</a></li>
                 </ul>
@@ -116,31 +115,17 @@ const Home = () => {
           </div>
           <div className="col-md-9 col-lg-10">
             <div className="system-messages mb-4">
-              <div className="alert alert-primary rounded" role="alert">
-                <strong>Teacher Evaluation</strong><br />
-                Saat ini pengisian evaluasi dosen telah dibuka. Silahkan mengisi
-                evaluasi dosen melalui <a href="#">link ini.</a>
-              </div>
-              <div className="alert alert-warning rounded" role="alert">
-                <strong>Academic</strong><br />
-                Maksimum waktu untuk setiap mahasiswa menyelesaikan perkuliahan di
-                satu program studi adalah tujuh (7) tahun terhitung sejak
-                mahasiswa tersebut terdaftar pada program studi. Informasi lebih
-                lanjut dapat dilihat melalui tautan
-                <a href="#">Aturan dan Keputusan</a>
-              </div>
-              <div className="alert alert-primary rounded" role="alert">
-                <strong>Academic</strong><br />
-                <strong>Periksa kembali jadwal perkuliahan anda sebelum mengikuti
-                  perkuliahan.<br />
-                  (Please re-check your schedule before class start)</strong>
-              </div>
-              <div className="alert alert-success rounded" role="alert">
-                <strong>SIU</strong><br />
-                Welcome back <strong>Nama Mahasiswa</strong>, its
-                nice to meet you again. This is your last activity using this
-                system:<br />
-                Last login date: 2024-XX-XX XX:XX:XX
+              <div className="alert alert-info rounded" role="alert">
+                <strong>Profile Information</strong><br />
+                <strong>ID Student:</strong> 123456789<br />
+                <strong>NIM:</strong> 123456789<br />
+                <strong>Gender:</strong> Male<br />
+                <strong>Address:</strong> Jl. Example Street No. 123<br />
+                <strong>Faculty:</strong> Faculty of Engineering<br />
+                <strong>Program Study:</strong> Computer Science<br />
+                <strong>Academic Status:</strong> Active<br />
+                <strong>Place, Date of Birth:</strong> City, DD/MM/YYYY<br />
+                <strong>Email:</strong> example@student.unklab.ac.id
               </div>
             </div>
           </div>
@@ -169,4 +154,4 @@ const Home = () => {
   );
 }
 
-export default Home;
+export default Absence;

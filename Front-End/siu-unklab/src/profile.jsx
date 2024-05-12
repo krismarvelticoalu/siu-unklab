@@ -2,7 +2,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import './home.css';
 import { useState } from 'react';
 
-const Home = () => {
+const Profile = () => {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
   const toggleDropdown = () => {
@@ -116,31 +116,36 @@ const Home = () => {
           </div>
           <div className="col-md-9 col-lg-10">
             <div className="system-messages mb-4">
-              <div className="alert alert-primary rounded" role="alert">
-                <strong>Teacher Evaluation</strong><br />
-                Saat ini pengisian evaluasi dosen telah dibuka. Silahkan mengisi
-                evaluasi dosen melalui <a href="#">link ini.</a>
-              </div>
-              <div className="alert alert-warning rounded" role="alert">
-                <strong>Academic</strong><br />
-                Maksimum waktu untuk setiap mahasiswa menyelesaikan perkuliahan di
-                satu program studi adalah tujuh (7) tahun terhitung sejak
-                mahasiswa tersebut terdaftar pada program studi. Informasi lebih
-                lanjut dapat dilihat melalui tautan
-                <a href="#">Aturan dan Keputusan</a>
-              </div>
-              <div className="alert alert-primary rounded" role="alert">
-                <strong>Academic</strong><br />
-                <strong>Periksa kembali jadwal perkuliahan anda sebelum mengikuti
-                  perkuliahan.<br />
-                  (Please re-check your schedule before class start)</strong>
-              </div>
-              <div className="alert alert-success rounded" role="alert">
-                <strong>SIU</strong><br />
-                Welcome back <strong>Nama Mahasiswa</strong>, its
-                nice to meet you again. This is your last activity using this
-                system:<br />
-                Last login date: 2024-XX-XX XX:XX:XX
+              <div className="alert alert-info rounded" role="alert">
+                <strong>Profile Information</strong>
+                <dl className="row mt-3">
+                  <dt className="col-sm-4">ID Student:</dt>
+                  <dd className="col-sm-8">123456789</dd>
+
+                  <dt className="col-sm-4">NIM:</dt>
+                  <dd className="col-sm-8">123456789</dd>
+
+                  <dt className="col-sm-4">Gender:</dt>
+                  <dd className="col-sm-8">Male</dd>
+
+                  <dt className="col-sm-4">Address:</dt>
+                  <dd className="col-sm-8">Jl. Example Street No. 123</dd>
+
+                  <dt className="col-sm-4">Faculty:</dt>
+                  <dd className="col-sm-8">Faculty of Engineering</dd>
+
+                  <dt className="col-sm-4">Program Study:</dt>
+                  <dd className="col-sm-8">Computer Science</dd>
+
+                  <dt className="col-sm-4">Academic Status:</dt>
+                  <dd className="col-sm-8">Active</dd>
+
+                  <dt className="col-sm-4">Place, Date of Birth:</dt>
+                  <dd className="col-sm-8">City, DD/MM/YYYY</dd>
+
+                  <dt className="col-sm-4">Email:</dt>
+                  <dd className="col-sm-8">example@student.unklab.ac.id</dd>
+                </dl>
               </div>
             </div>
           </div>
@@ -169,4 +174,4 @@ const Home = () => {
   );
 }
 
-export default Home;
+export default Profile;

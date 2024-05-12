@@ -2,7 +2,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import './home.css';
 import { useState } from 'react';
 
-const Home = () => {
+const Grade = () => {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
   const toggleDropdown = () => {
@@ -116,31 +116,16 @@ const Home = () => {
           </div>
           <div className="col-md-9 col-lg-10">
             <div className="system-messages mb-4">
-              <div className="alert alert-primary rounded" role="alert">
-                <strong>Teacher Evaluation</strong><br />
-                Saat ini pengisian evaluasi dosen telah dibuka. Silahkan mengisi
-                evaluasi dosen melalui <a href="#">link ini.</a>
-              </div>
-              <div className="alert alert-warning rounded" role="alert">
-                <strong>Academic</strong><br />
-                Maksimum waktu untuk setiap mahasiswa menyelesaikan perkuliahan di
-                satu program studi adalah tujuh (7) tahun terhitung sejak
-                mahasiswa tersebut terdaftar pada program studi. Informasi lebih
-                lanjut dapat dilihat melalui tautan
-                <a href="#">Aturan dan Keputusan</a>
-              </div>
-              <div className="alert alert-primary rounded" role="alert">
-                <strong>Academic</strong><br />
-                <strong>Periksa kembali jadwal perkuliahan anda sebelum mengikuti
-                  perkuliahan.<br />
-                  (Please re-check your schedule before class start)</strong>
-              </div>
               <div className="alert alert-success rounded" role="alert">
-                <strong>SIU</strong><br />
-                Welcome back <strong>Nama Mahasiswa</strong>, its
-                nice to meet you again. This is your last activity using this
-                system:<br />
-                Last login date: 2024-XX-XX XX:XX:XX
+                <strong>View Grade</strong><br />
+                Welcome back <strong>Nama Mahasiswa</strong>, here are your grades:
+                {/* Include grade information here */}
+                {/* For example: */}
+                <ul>
+                  <li>Subject 1: A</li>
+                  <li>Subject 2: B+</li>
+                  <li>Subject 3: A-</li>
+                </ul>
               </div>
             </div>
           </div>
@@ -169,4 +154,4 @@ const Home = () => {
   );
 }
 
-export default Home;
+export default Grade;

@@ -2,7 +2,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import './home.css';
 import { useState } from 'react';
 
-const Home = () => {
+const Addndrop = () => {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
   const toggleDropdown = () => {
@@ -104,10 +104,9 @@ const Home = () => {
                 <ul>
                   <li><a href="#">Registration</a></li>
                   <li><a href="#">Semester Cost Estimation</a></li>
-                  <li><a href="./addndrop.html">Add/ Drop Registration Subject</a></li>
-                  <li><a href="./drop.html">Drop Subject</a></li>
-                  <li><a href="./grade.html">View Grade</a></li>
-                  <li><a href="./schedule.html">View Schedule</a></li>
+                  <li><a href="#">Add/ Drop Registration Subject</a></li>
+                  <li><a href="#">Drop Subject</a></li>
+                  <li><a href="#">View Schedule</a></li>
                   <li><a href="#">Teacher Evaluation</a></li>
                   <li><a href="#">View Ospek & KKN/ KKU</a></li>
                 </ul>
@@ -116,31 +115,36 @@ const Home = () => {
           </div>
           <div className="col-md-9 col-lg-10">
             <div className="system-messages mb-4">
-              <div className="alert alert-primary rounded" role="alert">
-                <strong>Teacher Evaluation</strong><br />
-                Saat ini pengisian evaluasi dosen telah dibuka. Silahkan mengisi
-                evaluasi dosen melalui <a href="#">link ini.</a>
-              </div>
-              <div className="alert alert-warning rounded" role="alert">
-                <strong>Academic</strong><br />
-                Maksimum waktu untuk setiap mahasiswa menyelesaikan perkuliahan di
-                satu program studi adalah tujuh (7) tahun terhitung sejak
-                mahasiswa tersebut terdaftar pada program studi. Informasi lebih
-                lanjut dapat dilihat melalui tautan
-                <a href="#">Aturan dan Keputusan</a>
-              </div>
-              <div className="alert alert-primary rounded" role="alert">
-                <strong>Academic</strong><br />
-                <strong>Periksa kembali jadwal perkuliahan anda sebelum mengikuti
-                  perkuliahan.<br />
-                  (Please re-check your schedule before class start)</strong>
-              </div>
               <div className="alert alert-success rounded" role="alert">
-                <strong>SIU</strong><br />
-                Welcome back <strong>Nama Mahasiswa</strong>, its
-                nice to meet you again. This is your last activity using this
-                system:<br />
-                Last login date: 2024-XX-XX XX:XX:XX
+                <strong>Add/Drop Subject</strong><br />
+                Hello <strong>Nama Mahasiswa</strong>, you can add or drop subjects here:
+                {/* Include subject add/drop options here */}
+                {/* For example: */}
+                <form>
+                  <div className="form-group">
+                    <label htmlFor="addSubject">Add Subject:</label>
+                    <select className="form-control" id="addSubject">
+                      <option>Mathematics</option>
+                      <option>Physics</option>
+                      <option>Chemistry</option>
+                      {/* Add more options for other subjects */}
+                    </select>
+                  </div>
+                  <button type="submit" className="btn btn-primary">Add</button>
+                </form>
+                <hr />
+                <form>
+                  <div className="form-group">
+                    <label htmlFor="dropSubject">Drop Subject:</label>
+                    <select className="form-control" id="dropSubject">
+                      <option>English</option>
+                      <option>History</option>
+                      <option>Geography</option>
+                      {/* Add more options for subjects to drop */}
+                    </select>
+                  </div>
+                  <button type="submit" className="btn btn-danger">Drop</button>
+                </form>
               </div>
             </div>
           </div>
@@ -169,4 +173,4 @@ const Home = () => {
   );
 }
 
-export default Home;
+export default Addndrop;
