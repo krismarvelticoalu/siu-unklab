@@ -17,27 +17,43 @@ model course {
 model teacher {
   id          Int          @id @default(autoincrement())
   name        String
+  email       String       @unique
+  password    String       @default("12345")
   enrollments enrollment[]
 }
 
 model student {
   id          Int          @id @default(autoincrement())
   name        String
+  email       String       @unique
+  password    String       @default("12345")
   enrollments enrollment[]
 }
 
 model enrollment {
-  studentId  Int
-  courseId   Int
-  teacherId  Int
-  semester   String
-  grade      Int?
-  location   String
-  timePeriod String
-  day        String
-  student    student @relation(fields: [studentId], references: [id])
-  course     course  @relation(fields: [courseId], references: [id])
-  teacher    teacher @relation(fields: [teacherId], references: [id])
+  studentId   Int
+  courseId    Int
+  teacherId   Int
+  semester    String
+  grade       Int?
+  location    String
+  timePeriod  String
+  day         String
+  student     student      @relation(fields: [studentId], references: [id])
+  course      course       @relation(fields: [courseId], references: [id])
+  teacher     teacher      @relation(fields: [teacherId], references: [id])
+  attendances attendance[]
 
   @@id([studentId, courseId])
+}
+
+model attendance {
+  date                DateTime
+  wasPresent          Boolean    @default(false)
+  wasLate             Boolean    @default(false)
+  enrollment          enrollment @relation(fields: [enrollmentStudentId, enrollmentCourseId], references: [studentId, courseId])
+  enrollmentStudentId Int
+  enrollmentCourseId  Int
+
+  @@id([enrollmentStudentId, enrollmentCourseId, date])
 }

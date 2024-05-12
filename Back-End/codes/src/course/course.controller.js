@@ -1,12 +1,11 @@
 const express = require("express");
-const db = require("../../db");
-const prisma = require("../db");
 const {
   getAllCourses,
   addCourse,
   getCourseById,
   deleteCourseById,
   deleteAllCourses,
+  updateCourseById,
 } = require("./course.service");
 
 const router = express.Router();
@@ -91,18 +90,8 @@ router.delete("/", async (req, res) => {
 router.patch("/:id", async (req, res) => {
   const { title, credit } = req.body;
 
-  // only update provided fields in req.body. if not provided, don't update the field.
-  let data = {};
-  if (title !== "") data.title = title;
-  if (credit !== "") data.credit = parseInt(credit);
-
   try {
-    await prisma.course.update({
-      where: {
-        id: parseInt(req.params.id),
-      },
-      data: data,
-    });
+    await updateCourseById(parseInt(req.params.id), title, parseInt(credit));
 
     res.status(200).json({
       status: "success",
