@@ -4,6 +4,7 @@ const {
   removeAllCourses,
   removeCourseById,
   insertCourse,
+  editCourseById,
 } = require("./course.repository");
 
 const getAllCourses = async () => {
@@ -18,8 +19,8 @@ const getCourseById = async (id) => {
   return course;
 };
 
-const addCourse = async (id, nama, ruangan, paralel) => {
-  const course = await insertCourse(id, nama, ruangan, paralel);
+const addCourse = async (title, credit) => {
+  const course = await insertCourse(title, credit);
 
   return course;
 };
@@ -36,10 +37,17 @@ const deleteAllCourses = async () => {
   return courses;
 };
 
+const updateCourseById = async (id, title, credit) => {
+  const course = await editCourseById(id, title, credit);
+
+  return course;
+};
+
 module.exports = {
   getAllCourses,
   getCourseById,
   deleteCourseById,
   deleteAllCourses,
   addCourse,
+  updateCourseById,
 };

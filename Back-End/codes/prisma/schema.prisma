@@ -7,11 +7,53 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model mataKuliah {
-  idMk   String @id @db.VarChar(10) @map("id_mk")
-  namaMk String @db.VarChar(50) @map("nama_mk")
-  ruangan String @db.VarChar(25)
-  paralel String @db.Char(1)
+model course {
+  id          Int          @id @default(autoincrement())
+  title       String
+  credit      Int
+  enrollments enrollment[]
+}
 
-  @@map("mata_kuliah")
+model teacher {
+  id          Int          @id @default(autoincrement())
+  name        String
+  email       String       @unique
+  password    String       @default("12345")
+  enrollments enrollment[]
+}
+
+model student {
+  id          Int          @id @default(autoincrement())
+  name        String
+  email       String       @unique
+  password    String       @default("12345")
+  enrollments enrollment[]
+}
+
+model enrollment {
+  studentId   Int
+  courseId    Int
+  teacherId   Int
+  semester    String
+  grade       Int?
+  location    String
+  timePeriod  String
+  day         String
+  student     student      @relation(fields: [studentId], references: [id], onDelete: Cascade)
+  course      course       @relation(fields: [courseId], references: [id], onDelete: Cascade)
+  teacher     teacher      @relation(fields: [teacherId], references: [id], onDelete: Cascade)
+  attendances attendance[]
+
+  @@id([studentId, courseId])
+}
+
+model attendance {
+  date                DateTime
+  wasPresent          Boolean    @default(false)
+  wasLate             Boolean    @default(false)
+  enrollment          enrollment @relation(fields: [enrollmentStudentId, enrollmentCourseId], references: [studentId, courseId], onDelete: Cascade)
+  enrollmentStudentId Int
+  enrollmentCourseId  Int
+
+  @@id([enrollmentStudentId, enrollmentCourseId, date])
 }

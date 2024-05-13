@@ -1,19 +1,19 @@
 const express = require("express");
 const {
-  getAllCourses,
-  addCourse,
-  getCourseById,
-  deleteCourseById,
-  deleteAllCourses,
-  updateCourseById,
-} = require("./course.service");
+  getAllStudents,
+  addStudent,
+  getStudentById,
+  deleteStudentById,
+  deleteAllStudents,
+  updateStudentById,
+} = require("./student.service");
 
 const router = express.Router();
 
-// get all courses
+// get all students
 router.get("/", async (req, res) => {
   try {
-    const result = await getAllCourses();
+    const result = await getAllStudents();
 
     res.status(200).json({
       status: "success",
@@ -25,11 +25,12 @@ router.get("/", async (req, res) => {
   }
 });
 
-// insert a course
+// insert a student
 router.post("/", async (req, res) => {
-  const { title, credit } = req.body;
+  const { name, email, password } = req.body;
+
   try {
-    await addCourse(title, parseInt(credit));
+    await addStudent(name, email, password);
 
     res.status(200).json({
       status: "success",
@@ -41,10 +42,10 @@ router.post("/", async (req, res) => {
   }
 });
 
-// get course by id
+// get student by id
 router.get("/:id", async (req, res) => {
   try {
-    const result = await getCourseById(parseInt(req.params.id));
+    const result = await getStudentById(parseInt(req.params.id));
 
     res.status(200).json({
       status: "success",
@@ -56,10 +57,10 @@ router.get("/:id", async (req, res) => {
   }
 });
 
-// delete course by id
+// delete student by id
 router.delete("/:id", async (req, res) => {
   try {
-    await deleteCourseById(parseInt(req.params.id));
+    await deleteStudentById(parseInt(req.params.id));
 
     res.status(200).json({
       status: "success",
@@ -71,10 +72,10 @@ router.delete("/:id", async (req, res) => {
   }
 });
 
-// delete all courses
+// delete all students
 router.delete("/", async (req, res) => {
   try {
-    await deleteAllCourses();
+    await deleteAllStudents();
 
     res.status(200).json({
       status: "success",
@@ -86,12 +87,12 @@ router.delete("/", async (req, res) => {
   }
 });
 
-// update course by id
+// update student by id
 router.patch("/:id", async (req, res) => {
-  const { title, credit } = req.body;
+  const { name, email, password } = req.body;
 
   try {
-    await updateCourseById(parseInt(req.params.id), title, parseInt(credit));
+    await updateStudentById(parseInt(req.params.id), name, email, password);
 
     res.status(200).json({
       status: "success",
