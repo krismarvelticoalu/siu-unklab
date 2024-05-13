@@ -39,9 +39,9 @@ model enrollment {
   location    String
   timePeriod  String
   day         String
-  student     student      @relation(fields: [studentId], references: [id])
-  course      course       @relation(fields: [courseId], references: [id])
-  teacher     teacher      @relation(fields: [teacherId], references: [id])
+  student     student      @relation(fields: [studentId], references: [id], onDelete: Cascade)
+  course      course       @relation(fields: [courseId], references: [id], onDelete: Cascade)
+  teacher     teacher      @relation(fields: [teacherId], references: [id], onDelete: Cascade)
   attendances attendance[]
 
   @@id([studentId, courseId])
@@ -51,7 +51,7 @@ model attendance {
   date                DateTime
   wasPresent          Boolean    @default(false)
   wasLate             Boolean    @default(false)
-  enrollment          enrollment @relation(fields: [enrollmentStudentId, enrollmentCourseId], references: [studentId, courseId])
+  enrollment          enrollment @relation(fields: [enrollmentStudentId, enrollmentCourseId], references: [studentId, courseId], onDelete: Cascade)
   enrollmentStudentId Int
   enrollmentCourseId  Int
 
